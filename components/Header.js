@@ -37,7 +37,7 @@ export function Header() {
       <AppBar position="static">
         <Toolbar className={classes.toolbar}>
           <Typography className={classes.title} variant="h5" noWrap>
-            San Joaquin Valley Town Hall
+            Talon Is Awesome!
           </Typography>
         </Toolbar>
       </AppBar>
