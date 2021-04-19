@@ -4,11 +4,13 @@ import Typography from '@material-ui/core/Typography';
 //import Link from '@material-ui/core/Link';
 import Link from 'next/link';
 import { makeStyles } from '@material-ui/core/styles';
+import { CenterFocusStrong } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     minWidth: '100%',
+    textAlign: 'center',
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -40,8 +42,13 @@ const useStyles = makeStyles((theme) => ({
   nav: {
     '& > * + *': {
       marginLeft: theme.spacing(2),
-      color: '#607D8B',
+      color: 'white',
     },
+    '& a:hover': {
+      color: '#fce4ec',
+    },
+    textAlign: 'center',
+    backgroundColor: '#607D8B',
   },
   img: {
     width: '100%',
@@ -62,14 +69,16 @@ export function Header() {
             <img className={classes.img} src='https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwebpages.uncc.edu%2Fkcardoso%2FLabs%2FLab5%2Ftown_hall%2Fimages%2Ftown_hall_logo.gif&f=1&nofb=1'/>
           </div>
           <div id='title'>
-            <Typography className={`${classes.title} ${classes.popColor}`}  variant="h4" noWrap>
+            <Typography className={`${classes.title} ${classes.popColor}`}  variant="h1" noWrap>
               San Joaquin Valley Town Hall
             </Typography>
-            <Typography className={classes.subTitle} variant="subtitle1" noWrap>
+            <Typography className={classes.subTitle} variant="h3" noWrap>
               Celebrating our <span className={classes.bold}>75th</span> Year
             </Typography>
           </div>
-          <div id='nav'>
+
+        </Toolbar>
+        <div id='nav'>
             <Typography className={`${classes.nav}`}>
               <Link href="/">
                 <a>Home</a>
@@ -77,18 +86,14 @@ export function Header() {
               <Link href="/tickets">
                 <a>Tickets</a>
               </Link>
-              <Link href="#">
-                Link
+              <Link href="/speakers">
+                Speakers
               </Link>
-              <Link href="#">
-                Link
-              </Link>
-              <Link href="#">
-                Link
+              <Link href="/luncheons">
+                Luncheons
               </Link>
             </Typography>
           </div>
-        </Toolbar>
       </AppBar>
     </div>
   );

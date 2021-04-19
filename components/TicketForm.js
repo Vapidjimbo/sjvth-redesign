@@ -12,13 +12,20 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
+import 'date-fns';
+import Grid from '@material-ui/core/Grid';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 
 
 const useStyles = makeStyles((theme) => ({
     root: {
         '& > *': {
             margin: theme.spacing(1),
-            width: '25ch',
+            width: '20ch',
         },
       },
     btn: {
@@ -30,7 +37,9 @@ const useStyles = makeStyles((theme) => ({
     },
     title: {
         flexGrow: 1,
-        alignSelf: 'flex-end',
+        alignSelf: 'flex-start',
+    },
+    popColor: {
         color: '#607D8B',
     },
     formControl: {
@@ -54,7 +63,7 @@ export function TicketForm() {
     const classes = useStyles();
     const [error, setError] = useState(classes.hideError);
     if (state.succeeded) {
-        return <p>Thanks for joining!</p>;
+        return <p>Thank You!</p>;
     }
 
     let errorCheck = () => {
@@ -66,8 +75,12 @@ export function TicketForm() {
     }
 
     return (
+     <>
+        <Typography className={`${classes.title} ${classes.popColor}`}  variant="h5" noWrap>
+            Ticket Order Form
+        </Typography>
         <form className={classes.root} onSubmit={handleSubmit}>
-            <Typography className={`${classes.title} ${classes.popColor}`}  variant="h6" noWrap>
+            <Typography className={`${classes.title}`}  variant="h6" noWrap>
                 Member Information
             </Typography>
             <MemberInformation />
@@ -93,12 +106,14 @@ export function TicketForm() {
             <CreditCardInformation />
             <ValidationError prefix="Credit-card" field="credit-card" errors={state.errors}/>
             <ValidationError prefix="Card-number" field="card-number" errors={state.errors}/>
+            <ValidationError prefix="Expiration-date" field="expiration-date" errors={state.errors}/>
             <br></br><br></br>
             <span className={error}>Please Complete All Fields</span>
             <div className={classes.btn} >
                 <Button onClick={errorCheck} variant="contained" type="submit" disabled={state.submitting}>Submit</Button>
             </div>
         </form>
+     </>
     );
   }
 
@@ -107,9 +122,9 @@ function MemberInformation() {
     return(
         <>
             <TextField id="email" name="email" label="Email Address" variant="outlined" />
-            <TextField id="firstName" name="firstName" label="First Name" variant="outlined" />
+            <TextField id="firstName" name="firstName" label="First Name" variant="outlined" /> <br/>
             <TextField id="lastName" name="lastName" label="Last Name" variant="outlined" />
-            <TextField id="address" name="address" label="Address" variant="outlined" />
+            <TextField id="address" name="address" label="Address" variant="outlined" /> <br/>
             <TextField id="city" name="city" label="City" variant="outlined" />
         </>
     );
@@ -176,6 +191,11 @@ function PaymentMethod() {
 function CreditCardInformation() {
     const classes = useStyles();
     const [value, setValue] = useState('');
+    const [selectedDate, setSelectedDate] = useState(new Date('2021-05-18T21:11:54'));
+
+    const handleDateChange = (date) => {
+      setSelectedDate(date);
+    };
 
     const handleChange = (event) => {
         setValue(event.target.value);
@@ -201,6 +221,22 @@ function CreditCardInformation() {
                 }}
                 variant="outlined"
             />
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <Grid container justify="space-around">
+                    <KeyboardDatePicker
+                        margin="normal"
+                        id="expiration-date"
+                        name="expiration-date"
+                        label="Expiration Date"
+                        format="MM-yyyy"
+                        value={selectedDate}
+                        onChange={handleDateChange}
+                        KeyboardButtonProps={{
+                            'aria-label': 'change date',
+                        }}
+                    />
+                </Grid>
+            </MuiPickersUtilsProvider>
         </>
     );
 }
